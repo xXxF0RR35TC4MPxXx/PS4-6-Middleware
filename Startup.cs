@@ -47,15 +47,17 @@ namespace Middleware
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.Use(async (context, next) =>
-            {
-                String browser = context.Request.Headers["User-Agent"].ToString();
-                if (browser.Contains("IE") || browser.Contains("Trident") || browser.Contains("Edg"))
-                    await context.Response.WriteAsync("Przegladarka nie jest obslugiwana! \n");
-                else
-                await next();
-            });
+            /* app.Use(async (context, next) =>
+             {
+                 String browser = context.Request.Headers["User-Agent"].ToString();
+                 if (browser.Contains("IE") || browser.Contains("Trident") || browser.Contains("Edg"))
+                     await context.Response.WriteAsync("Przegladarka nie jest obslugiwana! \n");
+                 else
+                 await next();
+             });*/
 
+            //app.UseMiddleware<BrowserCheckMiddleware>();
+            app.UseBrowserCheckMiddleware();
             app.UseRouting();
 
             app.UseAuthorization();
